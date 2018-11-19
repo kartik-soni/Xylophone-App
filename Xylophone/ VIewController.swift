@@ -24,7 +24,6 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         switch sender.tag {
         case 1:
             url = Bundle.main.url(forResource: "note1", withExtension: "wav")!
-            print("1")
             break
         case 2:
             url = Bundle.main.url(forResource: "note2", withExtension: "wav")!
