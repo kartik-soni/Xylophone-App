@@ -7,11 +7,10 @@
 import UIKit
 import AVFoundation
 
-var player: AVAudioPlayer?
-
-class ViewController: UIViewController{
+class ViewController: UIViewController, AVAudioPlayerDelegate {
     
-
+    var audioPlayer : AVAudioPlayer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -20,11 +19,12 @@ class ViewController: UIViewController{
 
     @IBAction func notePressed(_ sender: UIButton) {
         
-        var url : URL = Bundle.main.url(forResource: "note1", withExtension: "wav")!
+        var url : URL
         
         switch sender.tag {
         case 1:
             url = Bundle.main.url(forResource: "note1", withExtension: "wav")!
+            print("1")
             break
         case 2:
             url = Bundle.main.url(forResource: "note2", withExtension: "wav")!
@@ -45,32 +45,17 @@ class ViewController: UIViewController{
             url = Bundle.main.url(forResource: "note7", withExtension: "wav")!
             break
         default:
-            print("Wrong Node")
+            url = URL(fileURLWithPath: "")
         }
         
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            
-            
-            
-            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
-            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-            
-            /* iOS 10 and earlier require the following line:
-             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
-            
-            guard let player = player else { return }
-            
-            player.play()
-            
-        } catch let error {
-            print(error.localizedDescription)
+        do{
+            audioPlayer = try AVAudioPlayer(contentsOf : url)
         }
+        catch{
+            print(error)
+        }
+        audioPlayer.play()
         
     }
-    
-  
-
 }
 
